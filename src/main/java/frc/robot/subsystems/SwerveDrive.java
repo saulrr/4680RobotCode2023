@@ -66,8 +66,9 @@ public class SwerveDrive extends SubsystemBase {
 
     
 
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0), null);
+    
 
+    
     public SwerveDrive() {
 
         m_imu = new Pigeon2(17);
@@ -99,26 +100,16 @@ public class SwerveDrive extends SubsystemBase {
         return Rotation2d.fromDegrees(getHeading());
     }
 
-    public Pose2d getPose() {
-        return odometer.getPoseMeters();
-    }
-
-    public void resetOdometry(Pose2d pose) {
-        
-        odometer.resetPosition(getRotation2d(), null, pose);
-    }
+    
 
     
 
     @Override
     public void periodic() {
-        odometer.update(getRotation2d(), frontLeft.getState(), frontRight.getState(), backLeft.getState(),
-                backRight.getState());
-        odometer.update(getRotation2d(), frontLeft.getState());
-        SmartDashboard.putNumber("Robot Heading", getHeading());
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-
-        SmartDashboard.putBoolean("Field Oriented", !RobotContainer.driveController.getRawButton(6));
+       
+        
+       
+        
 
     }
 

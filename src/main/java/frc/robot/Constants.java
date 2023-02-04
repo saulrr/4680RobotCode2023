@@ -6,6 +6,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 
+
 public final class Constants {
 
     public static final class ModuleConstants {
@@ -31,15 +32,17 @@ public final class Constants {
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
 
-        public static final int kFrontLeftDriveMotorPort = 8;
-        public static final int kBackLeftDriveMotorPort = 2;
-        public static final int kFrontRightDriveMotorPort = 1;
-        public static final int kBackRightDriveMotorPort = 3;
+                public static final int kFrontLeftDriveMotorPort = 8;
+                public static final int kBackLeftDriveMotorPort = 2;
+                public static final int kFrontRightDriveMotorPort = 1;
+                public static final int kBackRightDriveMotorPort = 3;
+        
+                public static final int kFrontLeftTurningMotorPort = 4;
+                public static final int kBackLeftTurningMotorPort = 6;
+                public static final int kFrontRightTurningMotorPort = 5;
+                public static final int kBackRightTurningMotorPort = 7;
 
-        public static final int kFrontLeftTurningMotorPort = 4;
-        public static final int kBackLeftTurningMotorPort = 6;
-        public static final int kFrontRightTurningMotorPort = 5;
-        public static final int kBackRightTurningMotorPort = 7;
+       
 
         public static final boolean kFrontLeftTurningEncoderReversed = true;
         public static final boolean kBackLeftTurningEncoderReversed = true;
