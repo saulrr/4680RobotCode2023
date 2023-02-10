@@ -25,18 +25,27 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.ElevatorCommand;
 
 
 
 public class RobotContainer {
     
+public static final ElevatorSubsystem Elevator = new ElevatorSubsystem();
 private final static SwerveDrive swerveDrive = new SwerveDrive();
 
+
+
+
+private final Command m_ElevatorCommand = new ElevatorCommand();
+
 private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
-public static XboxController drivecController = new XboxController(0);
-    public static XboxController shooController = new XboxController(1);
+public static XboxController driveController = new XboxController(0);
+
+    public static XboxController shootController = new XboxController(1);
 
 public RobotContainer(){
 
