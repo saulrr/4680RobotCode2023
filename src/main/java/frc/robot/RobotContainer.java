@@ -39,8 +39,8 @@ private final static SwerveDrive swerveDrive = new SwerveDrive();
 
 
 
+private final ElevatorCommand elevatorCommand = new ElevatorCommand(RobotContainer.Elevator);
 
-private final Command m_ElevatorCommand = new ElevatorCommand();
 
 private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 public static XboxController driveController = new XboxController(0);
@@ -48,7 +48,7 @@ public static XboxController driveController = new XboxController(0);
     public static XboxController shootController = new XboxController(1);
 
 public RobotContainer(){
-
+    
 swerveDrive.setDefaultCommand(new SwerveJoystickCmd(swerveDrive, 
 ()-> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis), 
 ()-> driverJoytick.getRawAxis(OIConstants.kDriverXAxis), 
@@ -69,6 +69,8 @@ private void configureButtonBindings(){
     if(driverJoytick.getRawButtonPressed(XboxController.Button.kLeftBumper.value)){
         swerveDrive.zeroHeading();
     }
-    
+   
+ new JoystickButton(shootController, XboxController.Button.kA.value).whileTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kB.value).whileTrue(elevatorCommand);
 }
 }

@@ -12,11 +12,15 @@ public class ElevatorCommand extends CommandBase {
     private static final double Climb_Speed = 1.0;
     private ElevatorSubsystem Elevator;
     private int Num = 1;
+    
 
-    public void ClimbCommand(){
-        addRequirements(RobotContainer.Elevator);
-    }
+    
 
+    public ElevatorCommand(ElevatorSubsystem elevator) {
+        this.Elevator = elevator;
+        addRequirements(Elevator);
+        }
+        
 
     @Override
     public void initialize(){
@@ -25,24 +29,26 @@ public class ElevatorCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(RobotContainer.shootController.getXButtonPressed()){
-            if(Num == 2){
-                new InstantCommand(() -> Elevator.moveDown(Climb_Speed), Elevator );
-                new InstantCommand(() -> Elevator.stop(), Elevator).withTimeout(1).schedule();
+        if(RobotContainer.shootController.getBButtonPressed()){
+            
+                Elevator.moveUp(-Climb_Speed);
+                
                 Num = 1;
-            }
+            
 
             
-        }  if(RobotContainer.shootController.getYButtonPressed()){
+        }  if(RobotContainer.shootController.getAButtonPressed()){
             if(Num == 3){
                 new InstantCommand(() -> Elevator.moveDown(Climb_Speed), Elevator );
                 new InstantCommand(() -> Elevator.stop(), Elevator).withTimeout(1).schedule();
             }
-            new InstantCommand(() -> Elevator.moveUp(Climb_Speed), Elevator );
+            Elevator.moveUp(Climb_Speed);
             new InstantCommand(() -> Elevator.stop(), Elevator).withTimeout(1).schedule();
+            //FIXME: the timer doesnt really work, after 1 second has passed, all the other commands with a scheduler wont work
+            //need to find a way to implement a new timer so it only spins for a certain amount of time
             Num = 2;
         }
-        if(RobotContainer.shootController.getBButtonPressed()){
+        if(RobotContainer.shootController.getRawButton(3)){
             if(Num == 1){
                 new InstantCommand(() -> Elevator.moveDown(Climb_Speed), Elevator );
                 new InstantCommand(() -> Elevator.stop(), Elevator).withTimeout(2).schedule();
@@ -52,4 +58,10 @@ public class ElevatorCommand extends CommandBase {
             Num = 3;
         }
     }
+
+
+@Override
+public boolean isFinished(){
+return false;
+}
 }

@@ -1,35 +1,34 @@
 package frc.robot.subsystems;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorSubsystem extends SubsystemBase {
-   private CANSparkMax motor;
-   private static final int CLIMBER_CAN_ID = 14;
-   TalonFX motor2;
+    CANSparkMax motor;
 
    public ElevatorSubsystem() {
-    motor2 = new TalonFX(CLIMBER_CAN_ID);
-    motor2.setNeutralMode(NeutralMode.Brake);
-      motor = new CANSparkMax(1, MotorType.kBrushless);
+      motor = new CANSparkMax(12, MotorType.kBrushless);
+      motor.setSmartCurrentLimit(20);
+      motor.setIdleMode(IdleMode.kBrake);
       stop();
+   }
+   @Override
+   public void periodic(){
+    
    }
 
    public void moveUp(double speed) {
-      motor2.set(ControlMode.PercentOutput  ,speed);
+      motor.set(speed);
    }
 
    public void moveDown(double speed) {
-      motor2.set(ControlMode.PercentOutput, -speed);
+      motor.set(-speed);
    }
 
    public void stop() {
-      motor2.set(ControlMode.PercentOutput, 0);
+      motor.set(0);
    }
 }
