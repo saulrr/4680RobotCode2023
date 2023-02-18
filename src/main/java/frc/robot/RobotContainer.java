@@ -72,5 +72,6 @@ private void configureButtonBindings(){
    
  new JoystickButton(shootController, XboxController.Button.kA.value).whileTrue(elevatorCommand);
  new JoystickButton(shootController, XboxController.Button.kB.value).whileTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kX.value).whileTrue(elevatorCommand);
 }
 }
