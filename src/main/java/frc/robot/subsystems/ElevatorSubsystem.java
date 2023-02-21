@@ -16,14 +16,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ElevatorSubsystem extends SubsystemBase {
    protected CANSparkMax motor;
     //private Encoder encoder = new Encoder(0, 1, true, EncodingType.k4X);
-    //public RelativeEncoder encoder = motor.getEncoder();
-    //private final double kDriveTick2Feet = 1.0/128 * 6 * Math.PI / 12;
+    public RelativeEncoder encoder;
+    
+    public final double kDriveTick2Feet = 1.0/128 * 6 * Math.PI / 12;
+    public final double kP = 0.5;
+    public final double kI = 0.4;
+    public final double kD = 0.15;
+   public double iLimit = 1;
+
+    public double setpoint = 0;
+    public double errorSum = 0;
+    public double lastTimestamp = 0;
+    public double lastError = 0;
+
 
    public ElevatorSubsystem() {
       motor = new CANSparkMax(12, MotorType.kBrushless);
       motor.setSmartCurrentLimit(20);
       motor.setIdleMode(IdleMode.kBrake);
-      
+      encoder = motor.getEncoder();
       stop();
    }
    @Override
@@ -31,7 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     
    }
    public void getEncode(){
-      motor.getEncoder();
+      
    }
 
    public void move(double speed) {

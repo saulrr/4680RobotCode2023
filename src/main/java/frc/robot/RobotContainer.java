@@ -67,12 +67,10 @@ configureButtonBindings();
 
 private void configureButtonBindings(){
     
-    if(driverJoytick.getRawButtonPressed(XboxController.Button.kLeftBumper.value)){
-        swerveDrive.zeroHeading();
-    }
-    new JoystickButton(driveController, XboxController.Button.kLeftBumper.value).whileTrue(m_zeroHeading);
- new JoystickButton(shootController, XboxController.Button.kA.value).whileTrue(elevatorCommand);
- new JoystickButton(shootController, XboxController.Button.kB.value).whileTrue(elevatorCommand);
- new JoystickButton(shootController, XboxController.Button.kX.value).whileTrue(elevatorCommand);
+   
+    new JoystickButton(driveController, XboxController.Button.kLeftBumper.value).onTrue(m_zeroHeading);
+ new JoystickButton(shootController, XboxController.Button.kA.value).onTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kB.value).onTrue(elevatorCommand);
+ //new JoystickButton(shootController, XboxController.Button.kX.value).whileTrue(elevatorCommand);
 }
 }

@@ -22,8 +22,7 @@ public class ElevatorCommand extends CommandBase {
     private int Num = 1;
     private Timer timer = new Timer();
     
-    //private Encoder encoder = new Encoder(0, 1, true, EncodingType.k4X);
-    private final double kDriveTick2Feet = 1.0/128 * 6 * Math.PI / 12;
+    
     
 
     public ElevatorCommand(ElevatorSubsystem elevator) {
@@ -35,29 +34,40 @@ public class ElevatorCommand extends CommandBase {
     @Override
     public void initialize(){
         timer.reset();
+        Elevator.errorSum = 0;
+        Elevator.lastTimestamp = Timer.getFPGATimestamp();
+        Elevator.lastError = 0;
        
     }
-    final double kP = 0.5;
-    double setpoint = 0;
+    
 
     @Override
     public void execute() {
 
-        /* if(RobotContainer.shootController.getAButtonPressed()){
-            setpoint = 2;
+         if(RobotContainer.shootController.getAButtonPressed()){
+            Elevator.setpoint = 2;
         } else if(RobotContainer.shootController.getBButtonPressed()){
-            setpoint = 0;
+            Elevator.setpoint = 0;
         }
 
-        double sensorPosition = Elevator.encoder.getPosition() * kDriveTick2Feet;
+        double sensorPosition = Elevator.encoder.getPosition() * Elevator.kDriveTick2Feet;
 
         // calculations
-        double error = setpoint - sensorPosition;
+        double error = Elevator.setpoint - sensorPosition;
+        double dt = Timer.getFPGATimestamp() - Elevator.lastTimestamp;
+
+        if(Math.abs(error) < Elevator.iLimit){
+            Elevator.errorSum += error * dt;
+        }
+
+        double errorRate = (error - Elevator.lastError) / dt;
     
-        double outputSpeed = kP * error;
+        double outputSpeed = Elevator.kP * error + Elevator.kI * Elevator.errorSum + Elevator.kD * errorRate;
         Elevator.move(outputSpeed);
-        SmartDashboard.putNumber("Encoder value", Elevator.encoder.getPosition() * kDriveTick2Feet);
- */
+        Elevator.lastTimestamp = Timer.getFPGATimestamp();
+        Elevator.lastError = error;
+        SmartDashboard.putNumber("Encoder value", Elevator.encoder.getPosition() * Elevator.kDriveTick2Feet);
+ 
      /*   if(RobotContainer.shootController.getBButtonPressed()){
             if(Num == 3){
                 Elevator.moveDown(Climb_Speed);
