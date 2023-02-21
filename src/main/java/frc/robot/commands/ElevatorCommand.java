@@ -1,12 +1,18 @@
 package frc.robot.commands;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.math.Num;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -15,7 +21,9 @@ public class ElevatorCommand extends CommandBase {
     private ElevatorSubsystem Elevator;
     private int Num = 1;
     private Timer timer = new Timer();
-
+    
+    //private Encoder encoder = new Encoder(0, 1, true, EncodingType.k4X);
+    private final double kDriveTick2Feet = 1.0/128 * 6 * Math.PI / 12;
     
 
     public ElevatorCommand(ElevatorSubsystem elevator) {
@@ -27,11 +35,30 @@ public class ElevatorCommand extends CommandBase {
     @Override
     public void initialize(){
         timer.reset();
+       
     }
+    final double kP = 0.5;
+    double setpoint = 0;
 
     @Override
     public void execute() {
-        if(RobotContainer.shootController.getBButtonPressed()){
+
+        /* if(RobotContainer.shootController.getAButtonPressed()){
+            setpoint = 2;
+        } else if(RobotContainer.shootController.getBButtonPressed()){
+            setpoint = 0;
+        }
+
+        double sensorPosition = Elevator.encoder.getPosition() * kDriveTick2Feet;
+
+        // calculations
+        double error = setpoint - sensorPosition;
+    
+        double outputSpeed = kP * error;
+        Elevator.move(outputSpeed);
+        SmartDashboard.putNumber("Encoder value", Elevator.encoder.getPosition() * kDriveTick2Feet);
+ */
+     /*   if(RobotContainer.shootController.getBButtonPressed()){
             if(Num == 3){
                 Elevator.moveDown(Climb_Speed);
                 timer.start();
@@ -110,6 +137,7 @@ public class ElevatorCommand extends CommandBase {
     if (timer.hasElapsed(1)) {
         timer.reset();
     }
+    */
     
 }
 

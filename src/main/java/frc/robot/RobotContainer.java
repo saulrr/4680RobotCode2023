@@ -29,18 +29,19 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.ZeroHeading;
 
 
 
 public class RobotContainer {
     
 public static final ElevatorSubsystem Elevator = new ElevatorSubsystem();
-private final static SwerveDrive swerveDrive = new SwerveDrive();
+public final static SwerveDrive swerveDrive = new SwerveDrive();
 
 
 
 private final ElevatorCommand elevatorCommand = new ElevatorCommand(RobotContainer.Elevator);
-
+private final Command m_zeroHeading = new ZeroHeading();
 
 private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 public static XboxController driveController = new XboxController(0);
@@ -69,7 +70,7 @@ private void configureButtonBindings(){
     if(driverJoytick.getRawButtonPressed(XboxController.Button.kLeftBumper.value)){
         swerveDrive.zeroHeading();
     }
-   
+    new JoystickButton(driveController, XboxController.Button.kLeftBumper.value).whileTrue(m_zeroHeading);
  new JoystickButton(shootController, XboxController.Button.kA.value).whileTrue(elevatorCommand);
  new JoystickButton(shootController, XboxController.Button.kB.value).whileTrue(elevatorCommand);
  new JoystickButton(shootController, XboxController.Button.kX.value).whileTrue(elevatorCommand);

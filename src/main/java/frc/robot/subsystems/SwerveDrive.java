@@ -60,14 +60,20 @@ public class SwerveDrive extends SubsystemBase {
 
     private static SwerveDriveKinematics kinematics;
 
+    Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
+Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
+Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
+Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
+SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+  m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation
+);
 
     //private final AHRS gyro = new AHRS(I2C.Port.kOnboard);
     Pigeon2 m_imu;
+    private SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(), new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()});
 
+  
     
-
-    
-
     
     public SwerveDrive() {
 
@@ -100,19 +106,23 @@ public class SwerveDrive extends SubsystemBase {
         return Rotation2d.fromDegrees(getHeading());
     }
 
-    
+    public Pose2d getPose() {
+        return odometer.getPoseMeters();
+    }
 
-    
+    public void resetOdometry(Pose2d pose) {
+        odometer.resetPosition( getRotation2d(), new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()}, pose);
+    }
 
     @Override
     public void periodic() {
-       
-        
-       
-        
+        odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()});
+        SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+
+        SmartDashboard.putBoolean("Field Oriented", !RobotContainer.driveController.getRawButton(6));
 
     }
-
     public void stopModules() {
         frontLeft.stop();
         frontRight.stop();
