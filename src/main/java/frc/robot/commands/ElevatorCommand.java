@@ -19,8 +19,9 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorCommand extends CommandBase {
     private static final double Climb_Speed = 1.0;
     private ElevatorSubsystem Elevator;
-    private int Num = 1;
+    private int SwitchControls = 0;
     private Timer timer = new Timer();
+    private String mode;
     
     
     
@@ -43,11 +44,36 @@ public class ElevatorCommand extends CommandBase {
 
     @Override
     public void execute() {
-
-         if(RobotContainer.shootController.getAButtonPressed()){
+        if(RobotContainer.shootController.getBButtonPressed()){
+            if(SwitchControls == 1){
+                Elevator.setpoint = 4.2;
+            }
+            else if(SwitchControls == 0){
+                Elevator.setpoint = 4;
+                }
+        }
+         else if(RobotContainer.shootController.getYButtonPressed()){
+            if(SwitchControls == 1){
+                Elevator.setpoint = 2.2;
+            }else if(SwitchControls == 0){
             Elevator.setpoint = 2;
-        } else if(RobotContainer.shootController.getBButtonPressed()){
+            }
+        } else if(RobotContainer.shootController.getXButtonPressed()){
+            if(SwitchControls == 1){
+                Elevator.setpoint = 0.2;
+            } else if(SwitchControls == 0){
             Elevator.setpoint = 0;
+            }
+        }
+
+        if(RobotContainer.shootController.getStartButtonPressed()){
+            
+            SwitchControls = 1;
+            mode = "Cone";
+        }
+        if(RobotContainer.shootController.getBackButtonPressed()){
+            SwitchControls = 0;
+            mode = "Box";
         }
 
         double sensorPosition = Elevator.encoder.getPosition() * Elevator.kDriveTick2Feet;
@@ -67,6 +93,7 @@ public class ElevatorCommand extends CommandBase {
         Elevator.lastTimestamp = Timer.getFPGATimestamp();
         Elevator.lastError = error;
         SmartDashboard.putNumber("Encoder value", Elevator.encoder.getPosition() * Elevator.kDriveTick2Feet);
+        SmartDashboard.putString("Control Type:", mode);
  
      /*   if(RobotContainer.shootController.getBButtonPressed()){
             if(Num == 3){

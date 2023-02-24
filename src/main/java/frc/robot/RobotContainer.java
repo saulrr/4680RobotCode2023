@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.Intake;
+import frc.robot.commands.IntakeObj;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.ElevatorCommand;
@@ -37,11 +39,12 @@ public class RobotContainer {
     
 public static final ElevatorSubsystem Elevator = new ElevatorSubsystem();
 public final static SwerveDrive swerveDrive = new SwerveDrive();
-
+public final static Intake intake = new Intake();
 
 
 private final ElevatorCommand elevatorCommand = new ElevatorCommand(RobotContainer.Elevator);
 private final Command m_zeroHeading = new ZeroHeading();
+private final IntakeObj intakecommand = new IntakeObj(RobotContainer.intake);
 
 private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 public static XboxController driveController = new XboxController(0);
@@ -69,8 +72,12 @@ private void configureButtonBindings(){
     
    
     new JoystickButton(driveController, XboxController.Button.kLeftBumper.value).onTrue(m_zeroHeading);
- new JoystickButton(shootController, XboxController.Button.kA.value).onTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kY.value).onTrue(elevatorCommand);
  new JoystickButton(shootController, XboxController.Button.kB.value).onTrue(elevatorCommand);
- //new JoystickButton(shootController, XboxController.Button.kX.value).whileTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kX.value).onTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kStart.value).onTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kBack.value).onTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kLeftBumper.value).onTrue(intakecommand);
+ new JoystickButton(shootController, XboxController.Button.kRightBumper.value).onTrue(intakecommand);
 }
 }
