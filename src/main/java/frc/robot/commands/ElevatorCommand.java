@@ -21,13 +21,14 @@ public class ElevatorCommand extends CommandBase {
     private ElevatorSubsystem Elevator;
     private int SwitchControls = 0;
     private Timer timer = new Timer();
-    private String mode;
-    
+    private String mode = "Box";
+    private double setpoint;
     
     
 
-    public ElevatorCommand(ElevatorSubsystem elevator) {
+    public ElevatorCommand(ElevatorSubsystem elevator, double m_setpoint, int mode) {
         this.Elevator = elevator;
+        setpoint = m_setpoint;
         addRequirements(Elevator);
         }
         
@@ -60,9 +61,9 @@ public class ElevatorCommand extends CommandBase {
             }
         } else if(RobotContainer.shootController.getXButtonPressed()){
             if(SwitchControls == 1){
-                Elevator.setpoint = 0.2;
+                Elevator.setpoint = 0.9 ;
             } else if(SwitchControls == 0){
-            Elevator.setpoint = 0;
+            Elevator.setpoint = 0.7;
             }
         }
 

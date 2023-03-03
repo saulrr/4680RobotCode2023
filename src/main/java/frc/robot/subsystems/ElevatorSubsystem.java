@@ -11,10 +11,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorSubsystem extends SubsystemBase {
    protected CANSparkMax motor;
+   //protected CANSparkMax motor2;
     //private Encoder encoder = new Encoder(0, 1, true, EncodingType.k4X);
     public RelativeEncoder encoder;
     
@@ -31,22 +33,25 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
    public ElevatorSubsystem() {
-      motor = new CANSparkMax(12, MotorType.kBrushless);
-      motor.setSmartCurrentLimit(20);
+      motor = new CANSparkMax(9, MotorType.kBrushless);
+     // motor2 =  new CANSparkMax(10, MotorType.kBrushless);
+      motor.setSmartCurrentLimit(10);
       motor.setIdleMode(IdleMode.kBrake);
+      
+      //motor2.setSmartCurrentLimit(20);
+      //motor2.setIdleMode(IdleMode.kBrake);
       encoder = motor.getEncoder();
       stop();
    }
    @Override
    public void periodic(){
-    
+    SmartDashboard.putNumber("elevator encoder val: ", encoder.getPosition());
    }
-   public void getEncode(){
-      
-   }
+   
 
    public void move(double speed) {
       motor.set(speed);
+      //motor2.set(speed);
    }
 
    public void moveDown(double speed) {

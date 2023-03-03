@@ -42,7 +42,10 @@ public final static SwerveDrive swerveDrive = new SwerveDrive();
 public final static Intake intake = new Intake();
 
 
-private final ElevatorCommand elevatorCommand = new ElevatorCommand(RobotContainer.Elevator);
+private final ElevatorCommand elevatorCommandLow = new ElevatorCommand(RobotContainer.Elevator, 1);
+private final ElevatorCommand elevatorCommandMid = new ElevatorCommand(RobotContainer.Elevator, 2);
+private final ElevatorCommand elevatorCommandHigh = new ElevatorCommand(RobotContainer.Elevator, 3);
+private final ElevatorCommand elevatorCommandLowCone = new ElevatorCommand(RobotContainer.Elevator, 1);
 private final Command m_zeroHeading = new ZeroHeading();
 private final IntakeObj intakecommand = new IntakeObj(RobotContainer.intake);
 
@@ -72,9 +75,9 @@ private void configureButtonBindings(){
     
    
     new JoystickButton(driveController, XboxController.Button.kLeftBumper.value).onTrue(m_zeroHeading);
- new JoystickButton(shootController, XboxController.Button.kY.value).onTrue(elevatorCommand);
- new JoystickButton(shootController, XboxController.Button.kB.value).onTrue(elevatorCommand);
- new JoystickButton(shootController, XboxController.Button.kX.value).onTrue(elevatorCommand);
+ new JoystickButton(shootController, XboxController.Button.kY.value).onTrue(elevatorCommandMid);
+ new JoystickButton(shootController, XboxController.Button.kB.value).onTrue(elevatorCommandHigh);
+ new JoystickButton(shootController, XboxController.Button.kX.value).onTrue(elevatorCommandLow);
  new JoystickButton(shootController, XboxController.Button.kStart.value).onTrue(elevatorCommand);
  new JoystickButton(shootController, XboxController.Button.kBack.value).onTrue(elevatorCommand);
  new JoystickButton(shootController, XboxController.Button.kLeftBumper.value).onTrue(intakecommand);

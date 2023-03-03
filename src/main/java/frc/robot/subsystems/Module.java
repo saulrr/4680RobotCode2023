@@ -79,7 +79,7 @@ public class Module {
 
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
-        angle *= 2.0 * Math.PI;
+        angle *= 2.0 * Math.PI * 60;
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
     }
@@ -105,6 +105,7 @@ public class Module {
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+        SmartDashboard.putNumber("Enocder value wheel: ", getAbsoluteEncoderRad());
     }
 
     public void stop() {
@@ -128,6 +129,7 @@ public class Module {
             double targetSpeed = speed;
             double targetAngle = angle;
         }
+        
     }
 
 }

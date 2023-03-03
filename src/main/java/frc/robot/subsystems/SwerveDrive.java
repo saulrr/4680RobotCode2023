@@ -18,6 +18,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
+
 public class SwerveDrive extends SubsystemBase {
     private final Module frontLeft = new Module(
             DriveConstants.kFrontLeftDriveMotorPort,
@@ -114,12 +115,16 @@ SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
         odometer.resetPosition( getRotation2d(), new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()}, pose);
     }
 
+
     @Override
     public void periodic() {
         odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()});
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-
+        SmartDashboard.putNumber("enocd val frontleft; ", frontLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("enocd val front right; ", frontRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("enocd val backleft; ", backLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("enocd val back right; ", backRight.getAbsoluteEncoderRad());
         SmartDashboard.putBoolean("Field Oriented", !RobotContainer.driveController.getRawButton(6));
 
     }
