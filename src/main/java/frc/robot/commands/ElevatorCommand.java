@@ -17,27 +17,25 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorCommand extends CommandBase {
-    private static final double Climb_Speed = 1.0;
     private ElevatorSubsystem Elevator;
-    private int SwitchControls;
     private Timer timer = new Timer();
-    private String mode = "Box";
     private int setpoint;
-    
+    private int gamepiece;
 
-    public ElevatorCommand(ElevatorSubsystem elevator, int m_setpoint) {
+    public ElevatorCommand(ElevatorSubsystem elevator, int m_setpoint, int selectedGamepiece) {
         this.Elevator = elevator;
         setpoint = m_setpoint;
+        gamepiece = selectedGamepiece;
         addRequirements(Elevator);
-        setName(String.format("ElevatorCommand(%d)", setpoint));
-        }
-        
+        setName(String.format("ElevatorCommand(%d , %d)", setpoint, gamepiece));
+    }
+
 
     @Override
     public void initialize(){
         timer.reset();
-        setpoint = 0;
-        SwitchControls = 0;
+        setpoint = 1;
+        //SwitchControls = 0;
         Elevator.errorSum = 0;
         Elevator.lastTimestamp = Timer.getFPGATimestamp();
         Elevator.lastError = 0;
@@ -55,44 +53,41 @@ public class ElevatorCommand extends CommandBase {
     @Override
     public void execute() {
 
-        if(setpoint == 1){
-            Elevator.move(0.5);
-        } else if(setpoint == 0){
-            Elevator.move(0);
+        // Cube Setpoints - ground intake, low goal, mid goal, high goal, shelf intake
+        if (setpoint == 1 && gamepiece == 1) {
+            Elevator.setpoint = 1; // TODO
         }
-        
-        if(setpoint == 0){
-            Elevator.move(-0.5);
-        } else if(RobotContainer.shootController.getBButtonReleased()){
-            Elevator.move(0);
+        if (setpoint == 2 && gamepiece == 1) {
+            Elevator.setpoint = 5; // TODO
         }
-
-        // Cube Low Setpoint
-       /*  if (SwitchControls == 1 && setpoint == 1) {
-            Elevator.setpoint = 1.2; // TODO
+        if (setpoint == 3 && gamepiece == 1) {
+            Elevator.setpoint = 6; // TODO
         }
-        if (SwitchControls == 1 && setpoint == 2) {
-            Elevator.setpoint = 2.2; // TODO
-        }
-        if (SwitchControls == 1 && setpoint == 3) {
-            Elevator.setpoint = 3.2; // TODO
-        }
-        if (SwitchControls == 1 && setpoint == 4) {
-            Elevator.setpoint = 4.2; // TODO
-        }
-        if (SwitchControls == 0 && setpoint == 1) {
-            Elevator.setpoint = 0.7; // TODO
-        }
-        if (SwitchControls == 0 && setpoint == 2) {
+        if (setpoint == 4 && gamepiece == 1) {
             Elevator.setpoint = 7; // TODO
         }
-        if (SwitchControls == 0 && setpoint == 3) {
+        if (setpoint == 5 && gamepiece == 1) {
             Elevator.setpoint = 3; // TODO
         }
-        if (SwitchControls == 0 && setpoint == 4) {
+
+        //Cone Setpoints - see above order
+        if (setpoint == 1 && gamepiece == 2) {
+            Elevator.setpoint = 2; // TODO
+        }
+        if (setpoint == 2 && gamepiece == 2) {
+            Elevator.setpoint = 6; // TODO
+        }
+        if (setpoint == 3 && gamepiece == 2) {
+            Elevator.setpoint = 7; // TODO
+        }
+        if (setpoint == 4 && gamepiece == 2) {
+            Elevator.setpoint = 8; // TODO
+        }
+        if (setpoint == 5 && gamepiece == 2) {
             Elevator.setpoint = 4; // TODO
         }
-        */
+
+        
         
 
         // if(RobotContainer.shootController.getBButtonPressed()){
@@ -127,7 +122,7 @@ public class ElevatorCommand extends CommandBase {
         //     mode = "Box";
         // }
 
-        double sensorPosition = -Elevator.encoder.getPosition();
+        double sensorPosition = -Elevator.leftEncoder.getPosition();
 
         // calculations
         double error = Elevator.setpoint - sensorPosition;
@@ -143,8 +138,9 @@ public class ElevatorCommand extends CommandBase {
         Elevator.move(outputSpeed);
         Elevator.lastTimestamp = Timer.getFPGATimestamp();
         Elevator.lastError = error;
-        SmartDashboard.putNumber("Encoder value", Elevator.encoder.getPosition());
-        SmartDashboard.putString("Control Type:", mode);
+        SmartDashboard.putNumber("Encoder value", Elevator.leftEncoder.getPosition());
+        
+        //SmartDashboard.putString("Control Type:", mode);
  
      /*   if(RobotContainer.shootController.getBButtonPressed()){
             if(Num == 3){
