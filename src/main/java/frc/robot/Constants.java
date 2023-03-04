@@ -65,18 +65,29 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //Took offsets from Former DriveTrain Subsytem
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -Math.toRadians(255);
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -Math.toRadians(367);
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -Math.toRadians(142);
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -Math.toRadians(272);
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(4.25);
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -(2.96);
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -(3.6);
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -(4.55);
+
+        // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(0);
+         //public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -(0);
+         //public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -(0);
+         //public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -(0);
+
+
+        // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(4.27) + Math.PI;
+        // public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -(6.12) + Math.PI;
+        // public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -(2.33) + Math.PI;
+        // public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -(4.56) + Math.PI;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 4.42;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond/2; //was divided by 4
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond * 0.75; //was divided by 2
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 
                 kPhysicalMaxAngularSpeedRadiansPerSecond/2; //was divided by 4
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; //was 3
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; //was 3 
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3; //was 3
     }
 
@@ -107,12 +118,4 @@ public final class Constants {
         public static final double kDeadband = 0.05;
     }
 
-    public static final class IntakeConstants {
-        public static final double kIntakeCollectSpeed = 0.5;
-    }
-
-    public static final class ShooterConstants {
-
-    }
-    
 }

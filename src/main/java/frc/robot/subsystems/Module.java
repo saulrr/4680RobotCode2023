@@ -79,9 +79,12 @@ public class Module {
 
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
-        angle *= 2.0 * Math.PI * 60;
-        angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
+        angle *= 2.0 * Math.PI;
+        angle-=absoluteEncoderOffsetRad; //Last year's code
+        return angle * (absoluteEncoderReversed ? -1.0 : 1.0); //Last year's code
+        
+        // // angle -= absoluteEncoderOffsetRad; // this year's modified code that was sort of working
+        // return angle * (absoluteEncoderReversed ? -1.0 : 1.0) + absoluteEncoderOffsetRad;
     }
 
     public void resetEncoders() {
@@ -105,7 +108,7 @@ public class Module {
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
-        SmartDashboard.putNumber("Enocder value wheel: ", getAbsoluteEncoderRad());
+        
     }
 
     public void stop() {
@@ -113,23 +116,24 @@ public class Module {
         turningMotor.set(0);
     }
 
-    public final void setTargetVelocity(double speed, double angle) {
-        if (speed < 0.0) {
-            speed *= -1.0;
+    //I don't think the below belongs here?
+    // public final void setTargetVelocity(double speed, double angle) {
+    //     if (speed < 0.0) {
+    //         speed *= -1.0;
 
-            angle += Math.PI;
-        }
+    //         angle += Math.PI;
+    //     }
 
-        angle %= 2.0 * Math.PI;
-        if (angle < 0.0) {
-            angle += 2.0 * Math.PI;
-        }
+    //     angle %= 2.0 * Math.PI;
+    //     if (angle < 0.0) {
+    //         angle += 2.0 * Math.PI;
+    //     }
 
-        synchronized (stateMutex) {
-            double targetSpeed = speed;
-            double targetAngle = angle;
-        }
+    //     synchronized (stateMutex) {
+    //         double targetSpeed = speed;
+    //         double targetAngle = angle;
+    //     }
         
-    }
+    // }
 
 }

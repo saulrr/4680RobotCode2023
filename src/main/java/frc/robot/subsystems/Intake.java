@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
 
     public void setIntakeSpeed(double intakeSpeed) {
         spinny.set(intakeSpeed);
-        spinny2.set(intakeSpeed);
+        spinny2.set(-intakeSpeed);
       }
 
 }

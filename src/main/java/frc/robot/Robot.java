@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +21,9 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private Timer resetEncoderTimer = new Timer();
+  private boolean encodersReset;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -29,13 +33,16 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    
-    
+
+    resetEncoderTimer.start();
     
 
     
     
     SmartDashboard.putData("Auto mode", chooser);
+
+    SmartDashboard.putData("CommandScheduler", CommandScheduler.getInstance());
+
 
     CameraServer.startAutomaticCapture(0);
   }
@@ -54,6 +61,11 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    if (resetEncoderTimer.get() > 1 && !encodersReset) {
+      RobotContainer.swerveDrive.resetEncoders();
+      encodersReset = true;
+    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

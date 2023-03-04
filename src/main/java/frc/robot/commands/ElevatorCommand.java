@@ -19,65 +19,115 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorCommand extends CommandBase {
     private static final double Climb_Speed = 1.0;
     private ElevatorSubsystem Elevator;
-    private int SwitchControls = 0;
+    private int SwitchControls;
     private Timer timer = new Timer();
     private String mode = "Box";
-    private double setpoint;
-    
+    private int setpoint;
     
 
-    public ElevatorCommand(ElevatorSubsystem elevator, double m_setpoint, int mode) {
+    public ElevatorCommand(ElevatorSubsystem elevator, int m_setpoint) {
         this.Elevator = elevator;
         setpoint = m_setpoint;
         addRequirements(Elevator);
+        setName(String.format("ElevatorCommand(%d)", setpoint));
         }
         
 
     @Override
     public void initialize(){
         timer.reset();
+        setpoint = 0;
+        SwitchControls = 0;
         Elevator.errorSum = 0;
         Elevator.lastTimestamp = Timer.getFPGATimestamp();
         Elevator.lastError = 0;
        
     }
-    
+
+
+   /*  public void SetMode(int gameObject, String mode) {
+        this.SwitchControls = gameObject;
+        this.mode = mode;
+        SmartDashboard.putString(getName() + " mode", mode);
+    }
+    */
 
     @Override
     public void execute() {
-        if(RobotContainer.shootController.getBButtonPressed()){
-            if(SwitchControls == 1){
-                Elevator.setpoint = 4.2;
-            }
-            else if(SwitchControls == 0){
-                Elevator.setpoint = 4;
-                }
+
+        if(setpoint == 1){
+            Elevator.move(0.5);
+        } else if(setpoint == 0){
+            Elevator.move(0);
         }
-         else if(RobotContainer.shootController.getYButtonPressed()){
-            if(SwitchControls == 1){
-                Elevator.setpoint = 2.2;
-            }else if(SwitchControls == 0){
-            Elevator.setpoint = 2;
-            }
-        } else if(RobotContainer.shootController.getXButtonPressed()){
-            if(SwitchControls == 1){
-                Elevator.setpoint = 0.9 ;
-            } else if(SwitchControls == 0){
-            Elevator.setpoint = 0.7;
-            }
+        
+        if(setpoint == 0){
+            Elevator.move(-0.5);
+        } else if(RobotContainer.shootController.getBButtonReleased()){
+            Elevator.move(0);
         }
 
-        if(RobotContainer.shootController.getStartButtonPressed()){
+        // Cube Low Setpoint
+       /*  if (SwitchControls == 1 && setpoint == 1) {
+            Elevator.setpoint = 1.2; // TODO
+        }
+        if (SwitchControls == 1 && setpoint == 2) {
+            Elevator.setpoint = 2.2; // TODO
+        }
+        if (SwitchControls == 1 && setpoint == 3) {
+            Elevator.setpoint = 3.2; // TODO
+        }
+        if (SwitchControls == 1 && setpoint == 4) {
+            Elevator.setpoint = 4.2; // TODO
+        }
+        if (SwitchControls == 0 && setpoint == 1) {
+            Elevator.setpoint = 0.7; // TODO
+        }
+        if (SwitchControls == 0 && setpoint == 2) {
+            Elevator.setpoint = 7; // TODO
+        }
+        if (SwitchControls == 0 && setpoint == 3) {
+            Elevator.setpoint = 3; // TODO
+        }
+        if (SwitchControls == 0 && setpoint == 4) {
+            Elevator.setpoint = 4; // TODO
+        }
+        */
+        
+
+        // if(RobotContainer.shootController.getBButtonPressed()){
+        //     if(SwitchControls == 1){
+        //         Elevator.setpoint = 4.2;
+        //     }
+        //     else if(SwitchControls == 0){
+        //         Elevator.setpoint = 4;
+        //         }
+        // }
+        //  else if(RobotContainer.shootController.getYButtonPressed()){
+        //     if(SwitchControls == 1){
+        //         Elevator.setpoint = 2.2;
+        //     }else if(SwitchControls == 0){
+        //     Elevator.setpoint = 2;
+        //     }
+        // } else if(RobotContainer.shootController.getXButtonPressed()){
+        //     if(SwitchControls == 1){
+        //         Elevator.setpoint = 0.9 ;
+        //     } else if(SwitchControls == 0){
+        //     Elevator.setpoint = 0.7;
+        //     }
+        // }
+
+        // if(RobotContainer.shootController.getStartButtonPressed()){
             
-            SwitchControls = 1;
-            mode = "Cone";
-        }
-        if(RobotContainer.shootController.getBackButtonPressed()){
-            SwitchControls = 0;
-            mode = "Box";
-        }
+        //     SwitchControls = 1;
+        //     mode = "Cone";
+        // }
+        // if(RobotContainer.shootController.getBackButtonPressed()){
+        //     SwitchControls = 0;
+        //     mode = "Box";
+        // }
 
-        double sensorPosition = Elevator.encoder.getPosition() * Elevator.kDriveTick2Feet;
+        double sensorPosition = -Elevator.encoder.getPosition();
 
         // calculations
         double error = Elevator.setpoint - sensorPosition;
@@ -93,7 +143,7 @@ public class ElevatorCommand extends CommandBase {
         Elevator.move(outputSpeed);
         Elevator.lastTimestamp = Timer.getFPGATimestamp();
         Elevator.lastError = error;
-        SmartDashboard.putNumber("Encoder value", Elevator.encoder.getPosition() * Elevator.kDriveTick2Feet);
+        SmartDashboard.putNumber("Encoder value", Elevator.encoder.getPosition());
         SmartDashboard.putString("Control Type:", mode);
  
      /*   if(RobotContainer.shootController.getBButtonPressed()){

@@ -56,25 +56,31 @@ public class SwerveDrive extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-    private static final double kPgain = 0.040;
-    private static final double kDgain = 0.0;
+    //private static final double kPgain = 0.040;
+    //private static final double kDgain = 0.0;
 
     private static SwerveDriveKinematics kinematics;
 
-    Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
-Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
-Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
-Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
-SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
-  m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation
-);
+    // Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
+    // Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
+    // Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
+    // Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
+    // SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+    //     m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
     //private final AHRS gyro = new AHRS(I2C.Port.kOnboard);
     Pigeon2 m_imu;
-    private SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(), new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()});
-
-  
     
+
+    //private SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(), new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()});
+    private SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0), null);
+  
+    public void resetEncoders() {
+        frontLeft.resetEncoders();
+        frontRight.resetEncoders();
+        backLeft.resetEncoders();
+        backRight.resetEncoders();
+    }
     
     public SwerveDrive() {
 
@@ -113,6 +119,7 @@ SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
 
     public void resetOdometry(Pose2d pose) {
         odometer.resetPosition( getRotation2d(), new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()}, pose);
+    
     }
 
 
@@ -121,10 +128,10 @@ SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
         odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()});
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("enocd val frontleft; ", frontLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("enocd val front right; ", frontRight.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("enocd val backleft; ", backLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("enocd val back right; ", backRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Front Left Encoder; ", frontLeft.getAbsoluteEncoderRad() );
+        SmartDashboard.putNumber("Front Right Encoder; ", frontRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Left Encoder; ", backLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Right Encoder; ", backRight.getAbsoluteEncoderRad());
         SmartDashboard.putBoolean("Field Oriented", !RobotContainer.driveController.getRawButton(6));
 
     }
