@@ -47,7 +47,8 @@ public class ElevatorSubsystem extends SubsystemBase {
    @Override
    public void periodic(){
       SmartDashboard.putNumber("elevator encoder: ", leftEncoder.getPosition());
-   
+      SmartDashboard.putNumber("Selected Gampeiece", selectGamepiece);
+
       if(RobotContainer.shootController.getBackButtonPressed()){
          selectGamepiece = 1;
       }
