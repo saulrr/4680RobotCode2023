@@ -1,48 +1,76 @@
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-
-import edu.wpi.first.math.Num;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorCommand extends CommandBase {
     private ElevatorSubsystem Elevator;
     private Timer timer = new Timer();
-    private int setpoint;
-    private int gamepiece;
+    private int position; //Symbolic elevator position where 1 = ground intake, etc.
+    private int setpoint;  //Encoder value related to position   
+    private int gamepiece; //1 = Cube, 2 = Cone
+    
+    //private SparkMaxPIDController m_elevatorPID;
+    //public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
-    public ElevatorCommand(ElevatorSubsystem elevator, int m_setpoint, int selectedGamepiece) {
+    private PIDController m_elevatorPID = new PIDController(Elevator.kP, Elevator.kI, Elevator.kD);
+    
+    public ElevatorCommand(ElevatorSubsystem elevator, int m_position, int selectedGamepiece) {
         this.Elevator = elevator;
-        setpoint = m_setpoint;
+        position = m_position;
         gamepiece = selectedGamepiece;
         addRequirements(Elevator);
-        setName(String.format("ElevatorCommand(%d , %d)", setpoint, gamepiece));
+        setName(String.format("ElevatorCommand(%d , %d)", position, gamepiece));
     }
 
 
     @Override
     public void initialize(){
         timer.reset();
-        setpoint = 1;
         //SwitchControls = 0;
         Elevator.errorSum = 0;
         Elevator.lastTimestamp = Timer.getFPGATimestamp();
         Elevator.lastError = 0;
-       
+        
+        // Cube Setpoints - ground intake, low goal, mid goal, high goal, shelf intake
+        if (position == 1 && gamepiece == 1) {
+            setpoint = 1; // TODO Encoder Value
+        }
+        if (position == 2 && gamepiece == 1) {
+            setpoint = 5; // TODO
+        }
+        if (position == 3 && gamepiece == 1) {
+            setpoint = 6; // TODO
+        }
+        if (position == 4 && gamepiece == 1) {
+            setpoint = 7; // TODO
+        }
+        if (position == 5 && gamepiece == 1) {
+            setpoint = 3; // TODO
+        }
+
+        //Cone Setpoints - see above order
+        if (position == 1 && gamepiece == 2) {
+            setpoint = 2; // TODO
+        }
+        if (position == 2 && gamepiece == 2) {
+            setpoint = 6; // TODO
+        }
+        if (position == 3 && gamepiece == 2) {
+            setpoint = 7; // TODO
+        }
+        if (position == 4 && gamepiece == 2) {
+            setpoint = 8; // TODO
+        }
+        if (position == 5 && gamepiece == 2) {
+            setpoint = 4; // TODO
+        }
     }
 
-
+    //
    /*  public void SetMode(int gameObject, String mode) {
         this.SwitchControls = gameObject;
         this.mode = mode;
@@ -52,97 +80,65 @@ public class ElevatorCommand extends CommandBase {
 
     @Override
     public void execute() {
-
-        // Cube Setpoints - ground intake, low goal, mid goal, high goal, shelf intake
-        if (setpoint == 1 && gamepiece == 1) {
-            Elevator.setpoint = 1; // TODO
-        }
-        if (setpoint == 2 && gamepiece == 1) {
-            Elevator.setpoint = 5; // TODO
-        }
-        if (setpoint == 3 && gamepiece == 1) {
-            Elevator.setpoint = 6; // TODO
-        }
-        if (setpoint == 4 && gamepiece == 1) {
-            Elevator.setpoint = 7; // TODO
-        }
-        if (setpoint == 5 && gamepiece == 1) {
-            Elevator.setpoint = 3; // TODO
-        }
-
-        //Cone Setpoints - see above order
-        if (setpoint == 1 && gamepiece == 2) {
-            Elevator.setpoint = 2; // TODO
-        }
-        if (setpoint == 2 && gamepiece == 2) {
-            Elevator.setpoint = 6; // TODO
-        }
-        if (setpoint == 3 && gamepiece == 2) {
-            Elevator.setpoint = 7; // TODO
-        }
-        if (setpoint == 4 && gamepiece == 2) {
-            Elevator.setpoint = 8; // TODO
-        }
-        if (setpoint == 5 && gamepiece == 2) {
-            Elevator.setpoint = 4; // TODO
-        }
-
         
+        Elevator.move(Elevator.arbFF + m_elevatorPID.calculate(Elevator.leftEncoder.getPosition(), setpoint)); // adds FF input to fight gravity
+               
+        SmartDashboard.putNumber("Target Setpoint", setpoint);
         
+        // // if(RobotContainer.operatorController.getBButtonPressed()){
+        // //     if(SwitchControls == 1){
+        // //         setpoint = 4.2;
+        // //     }
+        // //     else if(SwitchControls == 0){
+        // //         setpoint = 4;
+        // //         }
+        // // }
+        // //  else if(RobotContainer.operatorController.getYButtonPressed()){
+        // //     if(SwitchControls == 1){
+        // //         setpoint = 2.2;
+        // //     }else if(SwitchControls == 0){
+        // //     setpoint = 2;
+        // //     }
+        // // } else if(RobotContainer.operatorController.getXButtonPressed()){
+        // //     if(SwitchControls == 1){
+        // //         setpoint = 0.9 ;
+        // //     } else if(SwitchControls == 0){
+        // //     setpoint = 0.7;
+        // //     }
+        // // }
 
-        // if(RobotContainer.shootController.getBButtonPressed()){
-        //     if(SwitchControls == 1){
-        //         Elevator.setpoint = 4.2;
-        //     }
-        //     else if(SwitchControls == 0){
-        //         Elevator.setpoint = 4;
-        //         }
-        // }
-        //  else if(RobotContainer.shootController.getYButtonPressed()){
-        //     if(SwitchControls == 1){
-        //         Elevator.setpoint = 2.2;
-        //     }else if(SwitchControls == 0){
-        //     Elevator.setpoint = 2;
-        //     }
-        // } else if(RobotContainer.shootController.getXButtonPressed()){
-        //     if(SwitchControls == 1){
-        //         Elevator.setpoint = 0.9 ;
-        //     } else if(SwitchControls == 0){
-        //     Elevator.setpoint = 0.7;
-        //     }
-        // }
-
-        // if(RobotContainer.shootController.getStartButtonPressed()){
+        // // if(RobotContainer.operatorController.getStartButtonPressed()){
             
-        //     SwitchControls = 1;
-        //     mode = "Cone";
+        // //     SwitchControls = 1;
+        // //     mode = "Cone";
+        // // }
+        // // if(RobotContainer.operatorController.getBackButtonPressed()){
+        // //     SwitchControls = 0;
+        // //     mode = "Box";
+        // // }
+
+        // double sensorPosition = Elevator.leftEncoder.getPosition();
+
+        // // calculations
+        // double error = setpoint - sensorPosition;
+        // double dt = Timer.getFPGATimestamp() - Elevator.lastTimestamp;
+
+        // if(Math.abs(error) < Elevator.iLimit){
+        //     Elevator.errorSum += error * dt;
         // }
-        // if(RobotContainer.shootController.getBackButtonPressed()){
-        //     SwitchControls = 0;
-        //     mode = "Box";
-        // }
 
-        double sensorPosition = -Elevator.leftEncoder.getPosition();
-
-        // calculations
-        double error = Elevator.setpoint - sensorPosition;
-        double dt = Timer.getFPGATimestamp() - Elevator.lastTimestamp;
-
-        if(Math.abs(error) < Elevator.iLimit){
-            Elevator.errorSum += error * dt;
-        }
-
-        double errorRate = (error - Elevator.lastError) / dt;
+        // double errorRate = (error - Elevator.lastError) / dt;
     
-        double outputSpeed = Elevator.kP * error + Elevator.kI * Elevator.errorSum + Elevator.kD * errorRate;
-        Elevator.move(outputSpeed);
-        Elevator.lastTimestamp = Timer.getFPGATimestamp();
-        Elevator.lastError = error;
-        SmartDashboard.putNumber("Encoder value", Elevator.leftEncoder.getPosition());
+        // double outputSpeed = Elevator.kP * error + Elevator.kI * Elevator.errorSum + Elevator.kD * errorRate;
+        
+        // Elevator.move(outputSpeed);
+        
+        // Elevator.lastTimestamp = Timer.getFPGATimestamp();
+        // Elevator.lastError = error;
         
         //SmartDashboard.putString("Control Type:", mode);
  
-     /*   if(RobotContainer.shootController.getBButtonPressed()){
+     /*   if(RobotContainer.operatorController.getBButtonPressed()){
             if(Num == 3){
                 Elevator.moveDown(Climb_Speed);
                 timer.start();
@@ -168,7 +164,7 @@ public class ElevatorCommand extends CommandBase {
             }
 
             
-        }  if(RobotContainer.shootController.getAButtonPressed()){
+        }  if(RobotContainer.operatorController.getAButtonPressed()){
             if(Num == 3){
                 Elevator.moveDown(Climb_Speed);
             timer.start();
@@ -193,7 +189,7 @@ public class ElevatorCommand extends CommandBase {
             Num = 2;
         }
         }
-        if(RobotContainer.shootController.getXButtonPressed()){
+        if(RobotContainer.operatorController.getXButtonPressed()){
             if(Num == 1){
                 Elevator.moveUp(Climb_Speed);
                 timer.start();
@@ -224,6 +220,8 @@ public class ElevatorCommand extends CommandBase {
     */
     
 }
+
+
 
 @Override
 public boolean isFinished(){

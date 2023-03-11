@@ -3,31 +3,34 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Encoder;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
 public class ElevatorSubsystem extends SubsystemBase {
-   protected CANSparkMax leftMotor;
-   protected CANSparkMax rightMotor;
+   private CANSparkMax leftMotor;
+   private CANSparkMax rightMotor;
    public RelativeEncoder leftEncoder;
    public RelativeEncoder rightEncoder;
        
-   public final double kP = 0.5; // TODO - Tune this
-   public final double kI = 0.0; // TODO - Tune this
-   public final double kD = 0.15; // TODO - Tune this
-   public double iLimit = 1; 
+   public final double kP = 0.0; // TODO - Tune this second
+   public final double kI = 0.0; // TODO - Tune this fourth
+   public final double kD = 0.0; // TODO - Tune this third
+   public final double arbFF = 0.0; //TODO - Tune this first
+   //public double iLimit = 1; //don't need for wpilib
 
    public double setpoint = 1;
    public double errorSum = 0;
    public double lastTimestamp = 0;
    public double lastError = 0;
 
-   public int selectGamepiece = 1; // 1 = Cube, 2 = Cone, defaults to cube
+   private float kUpperLimitLeftMotor = 3;   //TODO confirm which was is up or down and set
+   private float kLowerLimitRightMotor = 0;  //TODO confirm which way is up or down and set
+
+   public int selectGamepiece = 1; // Initialize to 1 for Cube, 2 = Cone, defaults to cube
    
    public ElevatorSubsystem() {
       leftMotor = new CANSparkMax(9, MotorType.kBrushless);
@@ -35,6 +38,11 @@ public class ElevatorSubsystem extends SubsystemBase {
       
       leftMotor.setSmartCurrentLimit(5);
       leftMotor.setIdleMode(IdleMode.kBrake);
+      leftMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+      leftMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+      leftMotor.setSoftLimit(SoftLimitDirection.kForward, kUpperLimitLeftMotor); 
+      leftMotor.setSoftLimit(SoftLimitDirection.kReverse, kLowerLimitRightMotor);    
+      
       
       rightMotor.setSmartCurrentLimit(5);
       rightMotor.setIdleMode(IdleMode.kBrake);
@@ -49,11 +57,11 @@ public class ElevatorSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("elevator encoder: ", leftEncoder.getPosition());
       SmartDashboard.putNumber("Selected Gampeiece", selectGamepiece);
 
-      if(RobotContainer.shootController.getBackButtonPressed()){
+      if(RobotContainer.operatorController.back().getAsBoolean()){
          selectGamepiece = 1;
       }
       
-      if(RobotContainer.shootController.getStartButtonPressed()){
+      if(RobotContainer.operatorController.start().getAsBoolean()){
          selectGamepiece = 2;
       }
    }
