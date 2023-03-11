@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
@@ -38,13 +37,17 @@ public class RobotContainer {
     
     private final IntakeCommand intakeStop = new IntakeCommand(intake, 0);
 
-    private final IntakeCommand cubeIntakeCommand = new IntakeCommand(intake,1);
-    private final IntakeCommand cubeHoldCommand = new IntakeCommand(intake, 2);
-    private final IntakeCommand cubeScoreCommand = new IntakeCommand(intake, 3);
+    private final IntakeCommand intakeCommand = new IntakeCommand(intake,1);
+    private final IntakeCommand holdCommand = new IntakeCommand(intake, 2);
+    private final IntakeCommand scoreCommand = new IntakeCommand(intake, 3);
 
-    private final IntakeCommand coneIntakeCommand = new IntakeCommand(intake, 1);
-    private final IntakeCommand coneHoldCommand = new IntakeCommand(intake, 2);
-    private final IntakeCommand coneScoreCommand = new IntakeCommand(intake, 3);
+    // private final IntakeCommand cubeIntakeCommand = new IntakeCommand(intake,1);
+    // private final IntakeCommand cubeHoldCommand = new IntakeCommand(intake, 2);
+    // private final IntakeCommand cubeScoreCommand = new IntakeCommand(intake, 3);
+
+    // private final IntakeCommand coneIntakeCommand = new IntakeCommand(intake, 1);
+    // private final IntakeCommand coneHoldCommand = new IntakeCommand(intake, 2);
+    // private final IntakeCommand coneScoreCommand = new IntakeCommand(intake, 3);
 
     
 
@@ -78,20 +81,27 @@ public class RobotContainer {
         new JoystickButton(driveController, XboxController.Button.kLeftBumper.value).onTrue(m_zeroHeading);
 
         //Elevator positioning
-        operatorController.a().onTrue(elevatorGroundIntake);
-        operatorController.x().onTrue(elevatorLow);
-        operatorController.y().onTrue(elevatorMiddle);
-        operatorController.b().onTrue(elevatorHigh);
-        operatorController.rightBumper().onTrue(elevatorShelfIntake);
+        operatorController.a().onTrue(elevatorGroundIntake); //pos 1
+        operatorController.x().onTrue(elevatorLow); //pos 2
+        operatorController.y().onTrue(elevatorMiddle); //pos 3
+        operatorController.b().onTrue(elevatorHigh); //pos 4
+        operatorController.rightBumper().onTrue(elevatorShelfIntake); //pos 5
+
+        //Intake logic
+        operatorController.rightTrigger().whileTrue(intakeCommand).onFalse(intakeStop);
+        operatorController.leftTrigger().whileTrue(scoreCommand).onFalse(intakeStop);
+
+        // operatorController.rightTrigger().onTrue(intakeCommand.andThen(holdCommand));
+        // operatorController.leftTrigger().whileTrue(scoreCommand).onFalse(intakeStop);
         
         //intake/score command logic
-        if(elevator.selectGamepiece == 1){
-            operatorController.rightTrigger().whileTrue(cubeIntakeCommand); //simple intake command
-            //operatorController.rightTrigger().whileTrue(cubeIntakeCommand.andThen(cubeHoldCommand));
-        }
-        if(elevator.selectGamepiece == 2){
-            coneIntakeCommand.andThen(coneHoldCommand);
-        }
+        // if(elevator.selectGamepiece == 1){
+        //     operatorController.rightTrigger().whileTrue(cubeIntakeCommand); //simple intake command
+        //     //operatorController.rightTrigger().whileTrue(cubeIntakeCommand.andThen(cubeHoldCommand));
+        // }
+        // if(elevator.selectGamepiece == 2){
+        //     coneIntakeCommand.andThen(coneHoldCommand);
+        // }
 
         // operatorController.leftTrigger().whileTrue(
         //     if(){

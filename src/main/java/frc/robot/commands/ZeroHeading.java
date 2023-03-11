@@ -7,13 +7,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Module;
 
 public class ZeroHeading extends CommandBase {
-  private static final double CLIMB_SPEED = 1.0;
+  //private static final double CLIMB_SPEED = 1.0;
  
   /**
    * Creates a new ClimbCommand.

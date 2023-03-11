@@ -6,15 +6,12 @@ import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
@@ -127,11 +124,11 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic() {
         odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getpos(), frontRight.getpos(), backLeft.getpos(), backRight.getpos()});
         SmartDashboard.putNumber("Robot Heading", getHeading());
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("Front Left Encoder; ", frontLeft.getAbsoluteEncoderRad() );
-        SmartDashboard.putNumber("Front Right Encoder; ", frontRight.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Back Left Encoder; ", backLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Back Right Encoder; ", backRight.getAbsoluteEncoderRad());
+        // SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        // SmartDashboard.putNumber("Front Left Encoder; ", frontLeft.getAbsoluteEncoderRad() );
+        // SmartDashboard.putNumber("Front Right Encoder; ", frontRight.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("Back Left Encoder; ", backLeft.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("Back Right Encoder; ", backRight.getAbsoluteEncoderRad());
         SmartDashboard.putBoolean("Field Oriented", !RobotContainer.driveController.getRawButton(6));
 
     }

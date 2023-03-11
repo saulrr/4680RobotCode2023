@@ -2,8 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class IntakeCommand extends CommandBase{
     private final Intake intake;
@@ -23,18 +23,39 @@ public class IntakeCommand extends CommandBase{
 
     @Override
     public void execute(){
-        if(action == 0){
+        
+        //Cube logic
+        if(action == 0 && ElevatorSubsystem.selectGamepiece == 1){
+            //SmartDashboard.putString("Intake Status", stopped);
+            intake.stop();
+        }
+        if(action == 1 && ElevatorSubsystem.selectGamepiece == 1){
+            //SmartDashboard.putString("Intake Status", intaking);
+            intake.intake();
+        }
+        if(action == 2 && ElevatorSubsystem.selectGamepiece == 1){
+            //SmartDashboard.putString("Intake Status", holding);
+        }
+        if(action == 3 && ElevatorSubsystem.selectGamepiece == 1){
+            //SmartDashboard.putString("Intake Status", scoring);
+            intake.score();
+        } 
 
-            SmartDashboard.putString("Intake Status", stopped);
+        //Cone Logic
+        if(action == 0 && ElevatorSubsystem.selectGamepiece == 2){
+            //SmartDashboard.putString("Intake Status", stopped);
+            intake.stop();
         }
-        if(action == 1){
-            SmartDashboard.putString("Intake Status", intaking);
+        if(action == 1 && ElevatorSubsystem.selectGamepiece == 2){
+            //SmartDashboard.putString("Intake Status", intaking);
+            intake.intake();
         }
-        if(action == 2){
-            SmartDashboard.putString("Intake Status", holding);
+        if(action == 2 && ElevatorSubsystem.selectGamepiece == 2){
+            //SmartDashboard.putString("Intake Status", holding);
+
         }
-        if(action == 3){
-            SmartDashboard.putString("Intake Status", scoring);
+        if(action == 3 && ElevatorSubsystem.selectGamepiece == 2){
+            //SmartDashboard.putString("Intake Status", scoring);
         } 
 
         
