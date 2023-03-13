@@ -31,42 +31,35 @@ public class ElevatorCommand extends CommandBase {
 
     @Override
     public void initialize(){
-        //timer.reset();
-        //SwitchControls = 0;
-        // elevator.errorSum = 0;
-        // elevator.lastTimestamp = Timer.getFPGATimestamp();
-        // elevator.lastError = 0;
-
-        // Cube Setpoints - ground intake, low goal, mid goal, high goal, shelf intake
-        if (position == 1 && gamepiece == 1) {
+        
+        // Cube Setpoints - ground intake, mid goal, high goal, shelf intake
+        if (position == 1 && elevator.selectGamepiece == 1) {
             setpoint = 0.7; // Should be about .7 for actual position
         }
-        if (position == 2 && gamepiece == 1) {
+        if (position == 2 && elevator.selectGamepiece == 1) {
+            setpoint = 17; // TODO
+        }
+        if (position == 3 && elevator.selectGamepiece == 1) {
+            setpoint = 22; // TODO
+        }
+        if (position == 4 && gamepiece == 1) {
             setpoint = 15; // TODO
         }
-        // if (position == 3 && gamepiece == 1) {
-        //     setpoint = 12; // TODO
-        // }
-        // if (position == 4 && gamepiece == 1) {
-        //     setpoint = 15; // TODO
-        // }
-        // if (position == 5 && gamepiece == 1) {
-        //     setpoint = 15; // TODO
-        // }
+        
 
         //Cone Setpoints - see above order
-        if (position == 1 && gamepiece == 2) {
-            setpoint = 1.3; // should be about 1.2 for actual position
+        if (position == 1 && elevator.selectGamepiece == 2) {
+            setpoint = 1.73; // should be about 1.2 for actual position
         }
-        if (position == 2 && gamepiece == 2) {
+        if (position == 2 && elevator.selectGamepiece == 2) {
             setpoint = 10; // TODO
         }
-        // if (position == 3 && gamepiece == 2) {
-        //     setpoint = 15; // TODO
-        // }
-        // if (position == 4 && gamepiece == 2) {
-        //     setpoint = 15; // TODO
-        // }
+        if (position == 3 && gamepiece == 2) {
+            setpoint = 15; // TODO
+        }
+        if (position == 4 && gamepiece == 2) {
+            setpoint = 15; // TODO
+        }
         // if (position == 5 && gamepiece == 2) {
         //     setpoint = 15; // TODO
         // }

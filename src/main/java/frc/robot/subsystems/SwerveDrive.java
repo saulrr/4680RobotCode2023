@@ -17,7 +17,7 @@ import frc.robot.Constants.DriveConstants;
 
 
 public class SwerveDrive extends SubsystemBase {
-    private final Module frontLeft = new Module(
+    public final Module frontLeft = new Module(
             DriveConstants.kFrontLeftDriveMotorPort,
             DriveConstants.kFrontLeftTurningMotorPort,
             DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -26,7 +26,7 @@ public class SwerveDrive extends SubsystemBase {
             DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private final Module frontRight = new Module(
+    public final Module frontRight = new Module(
             DriveConstants.kFrontRightDriveMotorPort,
             DriveConstants.kFrontRightTurningMotorPort,
             DriveConstants.kFrontRightDriveEncoderReversed,
@@ -35,7 +35,7 @@ public class SwerveDrive extends SubsystemBase {
             DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private final Module backLeft = new Module(
+    public final Module backLeft = new Module(
             DriveConstants.kBackLeftDriveMotorPort,
             DriveConstants.kBackLeftTurningMotorPort,
             DriveConstants.kBackLeftDriveEncoderReversed,
@@ -44,7 +44,7 @@ public class SwerveDrive extends SubsystemBase {
             DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private final Module backRight = new Module(
+    public final Module backRight = new Module(
             DriveConstants.kBackRightDriveMotorPort,
             DriveConstants.kBackRightTurningMotorPort,
             DriveConstants.kBackRightDriveEncoderReversed,

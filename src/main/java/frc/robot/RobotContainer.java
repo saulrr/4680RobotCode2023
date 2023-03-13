@@ -26,11 +26,11 @@ public class RobotContainer {
     // private final ElevatorCommand elevatorcomdown = new ElevatorCommand(RobotContainer.elevator, 0);
 
     // Setpoint elevator controls
-    private final ElevatorCommand elevatorHigh = new ElevatorCommand(elevator, 4, elevator.selectGamepiece);
-    private final ElevatorCommand elevatorMiddle = new ElevatorCommand(elevator, 3, elevator.selectGamepiece);
-    private final ElevatorCommand elevatorLow = new ElevatorCommand(elevator, 2, elevator.selectGamepiece);
+    private final ElevatorCommand elevatorHigh = new ElevatorCommand(elevator, 3, elevator.selectGamepiece);
+    private final ElevatorCommand elevatorMiddle = new ElevatorCommand(elevator, 2, elevator.selectGamepiece);
+    //private final ElevatorCommand elevatorLow = new ElevatorCommand(elevator, 2, elevator.selectGamepiece);
     private final ElevatorCommand elevatorGroundIntake = new ElevatorCommand(elevator, 1, elevator.selectGamepiece);
-    private final ElevatorCommand elevatorShelfIntake = new ElevatorCommand(elevator, 5, elevator.selectGamepiece);
+    private final ElevatorCommand elevatorShelfIntake = new ElevatorCommand(elevator, 4, elevator.selectGamepiece);
 
 
     private final Command m_zeroHeading = new ZeroHeading();
@@ -82,59 +82,13 @@ public class RobotContainer {
 
         //Elevator positioning
         operatorController.a().onTrue(elevatorGroundIntake); //pos 1
-        operatorController.x().onTrue(elevatorLow); //pos 2
-        operatorController.y().onTrue(elevatorMiddle); //pos 3
-        operatorController.b().onTrue(elevatorHigh); //pos 4
-        operatorController.rightBumper().onTrue(elevatorShelfIntake); //pos 5
+        operatorController.x().onTrue(elevatorMiddle); //pos 2
+        operatorController.y().onTrue(elevatorHigh); //pos 3
+        operatorController.b().onTrue(elevatorShelfIntake); //pos 4
 
         //Intake logic
         operatorController.rightTrigger().whileTrue(intakeCommand).onFalse(intakeStop);
         operatorController.leftTrigger().whileTrue(scoreCommand).onFalse(intakeStop);
-
-        // operatorController.rightTrigger().onTrue(intakeCommand.andThen(holdCommand));
-        // operatorController.leftTrigger().whileTrue(scoreCommand).onFalse(intakeStop);
         
-        //intake/score command logic
-        // if(elevator.selectGamepiece == 1){
-        //     operatorController.rightTrigger().whileTrue(cubeIntakeCommand); //simple intake command
-        //     //operatorController.rightTrigger().whileTrue(cubeIntakeCommand.andThen(cubeHoldCommand));
-        // }
-        // if(elevator.selectGamepiece == 2){
-        //     coneIntakeCommand.andThen(coneHoldCommand);
-        // }
-
-        // operatorController.leftTrigger().whileTrue(
-        //     if(){
-
-        //     }
-        //     if(){
-
-        //     }
-        // );
-        
-        // new JoystickButton(operatorController, XboxController).onTrue(elevatorGroundIntake);
-        // new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(elevatorLow);
-        // new JoystickButton(operatorController, XboxController.Button.kY.value).onTrue(elevatorMiddle);
-        // new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(elevatorHigh);
-        // new JoystickButton(operatorController, XboxController.Button.kRightBumper.value).onTrue(elevatorShelfIntake);
-        // new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value).whileTrue(intakeCommand)
-
-    //TODO Fix intake commands?
-    //new JoystickButton(operatorController, XboxController.Button.kRightBumper.value).onTrue(intakeCommand());
-    //new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value).onTrue(elevatorcom);
-    
-    // new JoystickButton(operatorController, XboxController.Button.kStart.value).onTrue(new InstantCommand(() -> {
-    //     elevatorCommandHigh.SetMode(1, "Cone");
-    //     elevatorCommandMiddle.SetMode(1, "Cone");
-    //     elevatorCommandLow.SetMode(1, "Cone");
-    // }));
-    // new JoystickButton(operatorController, XboxController.Button.kBack.value).onTrue(new InstantCommand(() -> {
-    //     elevatorCommandHigh.SetMode(0, "Box");
-    //     elevatorCommandMiddle.SetMode(0, "Box");
-    //     elevatorCommandLow.SetMode(0, "Box");
-    // }));
-    
-    // new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value).onTrue(intakecommand);
-    // new JoystickButton(operatorController, XboxController.Button.kRightBumper.value).onTrue(intakecommand);
     }
 }

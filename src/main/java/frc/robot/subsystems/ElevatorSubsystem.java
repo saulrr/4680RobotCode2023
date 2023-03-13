@@ -30,7 +30,7 @@ public class ElevatorSubsystem extends SubsystemBase {
    //private float kUpperLimitLeftMotor = 15;   //TODO confirm which was is up or down and set
    //private float kLowerLimitLeftMotor = 0;  //TODO confirm which way is up or down and set
 
-   public static int selectGamepiece = 1; // Initialize to 1 for Cube, 2 = Cone, defaults to cube
+   public int selectGamepiece = 1; // Initialize to 1 for Cube, 2 = Cone, defaults to cube
    
    public ElevatorSubsystem() {
       leftMotor = new CANSparkMax(9, MotorType.kBrushless);

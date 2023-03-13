@@ -65,15 +65,15 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //Took offsets from Former DriveTrain Subsytem
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(4.25);
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -(2.96);
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -(3.6);
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -(4.55);
+        // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(4.25);
+        // public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -(2.96);
+        // public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -(3.6);
+        // public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -(4.55);
 
-        // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(0);
-         //public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -(0);
-         //public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -(0);
-         //public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -(0);
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(0);
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -(0);
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -(0);
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -(0);
 
 
         // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -(4.27) + Math.PI;

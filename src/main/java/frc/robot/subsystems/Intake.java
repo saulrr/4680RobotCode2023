@@ -12,18 +12,18 @@ public class Intake extends SubsystemBase {
     private CANSparkMax intakeMotor2; //determine if right or left motor
 
     public double cubeIntakeSpeed = -0.2; //needs to negative with controls logic as is
-    public int cubeIntakeLimit; //current limit
+    public int cubeIntakeLimit = 20; //current limit
     public double cubeHoldSpeed;
-    public int cubeHoldLimit; 
+    public int cubeHoldLimit = 1; 
     public double cubeScoreSpeed = -0.2;
-    public int cubeScoreLimit;
+    public int cubeScoreLimit = 20;
 
-    public double coneIntakeSpeed= 0; //Needs to be positive with controls logic as is
-    public int coneIntakeLimit = 2;
+    public double coneIntakeSpeed= 0.5; //Needs to be positive with controls logic as is
+    public int coneIntakeLimit = 20;
     public double coneHoldSpeed = 0;
     public int coneHoldLimit = 1;
-    public double coneScoreSpeed;
-    public int coneScoreLimit;
+    public double coneScoreSpeed = 0.2;
+    public int coneScoreLimit = 20;
 
     public Intake(){
         intakeMotor1 = new CANSparkMax(11, MotorType.kBrushless);
@@ -44,7 +44,7 @@ public class Intake extends SubsystemBase {
     public void hold(){
         intakeMotor1.setSmartCurrentLimit(RobotContainer.elevator.selectGamepiece == 1 ? cubeHoldLimit : coneHoldLimit);
         intakeMotor2.setSmartCurrentLimit(RobotContainer.elevator.selectGamepiece == 1 ? cubeHoldLimit : coneHoldLimit);
-        intakeMotor1.set(-RobotContainer.elevator.selectGamepiece == 1 ? cubeHoldSpeed : coneHoldSpeed);
+        intakeMotor1.set(RobotContainer.elevator.selectGamepiece == 1 ? cubeHoldSpeed : coneHoldSpeed);
         intakeMotor2.set(RobotContainer.elevator.selectGamepiece == 1 ? cubeHoldSpeed : coneHoldSpeed);
     }
     public void score(){
