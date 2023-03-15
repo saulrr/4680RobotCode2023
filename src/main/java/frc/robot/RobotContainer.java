@@ -26,12 +26,11 @@ public class RobotContainer {
     // private final ElevatorCommand elevatorcomdown = new ElevatorCommand(RobotContainer.elevator, 0);
 
     // Setpoint elevator controls
-    private final ElevatorCommand elevatorHigh = new ElevatorCommand(elevator, 3, elevator.selectGamepiece);
+    public final static ElevatorCommand elevatorHigh = new ElevatorCommand(elevator, 3, elevator.selectGamepiece);
     private final ElevatorCommand elevatorMiddle = new ElevatorCommand(elevator, 2, elevator.selectGamepiece);
     //private final ElevatorCommand elevatorLow = new ElevatorCommand(elevator, 2, elevator.selectGamepiece);
     private final ElevatorCommand elevatorGroundIntake = new ElevatorCommand(elevator, 1, elevator.selectGamepiece);
-    private final ElevatorCommand elevatorShelfIntake = new ElevatorCommand(elevator, 4, elevator.selectGamepiece);
-
+    //private final ElevatorCommand elevatorShelfIntake = new ElevatorCommand(elevator, 4, elevator.selectGamepiece);
 
     private final Command m_zeroHeading = new ZeroHeading();
     
@@ -40,31 +39,15 @@ public class RobotContainer {
     private final IntakeCommand intakeCommand = new IntakeCommand(intake,1);
     private final IntakeCommand holdCommand = new IntakeCommand(intake, 2);
     private final IntakeCommand scoreCommand = new IntakeCommand(intake, 3);
-
-    // private final IntakeCommand cubeIntakeCommand = new IntakeCommand(intake,1);
-    // private final IntakeCommand cubeHoldCommand = new IntakeCommand(intake, 2);
-    // private final IntakeCommand cubeScoreCommand = new IntakeCommand(intake, 3);
-
-    // private final IntakeCommand coneIntakeCommand = new IntakeCommand(intake, 1);
-    // private final IntakeCommand coneHoldCommand = new IntakeCommand(intake, 2);
-    // private final IntakeCommand coneScoreCommand = new IntakeCommand(intake, 3);
-
     
-
-    //private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
     public static XboxController driveController = new XboxController(0);
     public static CommandXboxController operatorController = new CommandXboxController(1);
     
-    //public static XboxController operatorController = new XboxController(1);
 
     public RobotContainer(){
     
         swerveDrive.setDefaultCommand(new SwerveJoystickCmd(swerveDrive, 
-            // ()-> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis), 
-            // ()-> driverJoystick.getRawAxis(OIConstants.kDriverXAxis), 
-            // ()-> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis), 
-            // ()-> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
-
+            
             ()-> -driveController.getRawAxis(OIConstants.kDriverYAxis), //Y axis left stick drive controller 
             ()-> driveController.getRawAxis(OIConstants.kDriverXAxis), //x axis left stick drive controller
             ()-> driveController.getRawAxis(OIConstants.kDriverRotAxis), //x axis right stick drive controller
@@ -84,10 +67,10 @@ public class RobotContainer {
         operatorController.a().onTrue(elevatorGroundIntake); //pos 1
         operatorController.x().onTrue(elevatorMiddle); //pos 2
         operatorController.y().onTrue(elevatorHigh); //pos 3
-        operatorController.b().onTrue(elevatorShelfIntake); //pos 4
-
+        //operatorController.b().onTrue(elevatorShelfIntake); //pos 4
+        
         //Intake logic
-        operatorController.rightTrigger().whileTrue(intakeCommand).onFalse(intakeStop);
+        operatorController.rightTrigger().whileTrue(intakeCommand).onFalse(holdCommand);
         operatorController.leftTrigger().whileTrue(scoreCommand).onFalse(intakeStop);
         
     }

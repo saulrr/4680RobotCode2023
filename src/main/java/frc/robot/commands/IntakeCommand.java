@@ -37,6 +37,7 @@ public class IntakeCommand extends CommandBase{
         }
         if(action == 2 && RobotContainer.elevator.selectGamepiece == 1){
             //SmartDashboard.putString("Intake Status", holding);
+            intake.hold();
         }
         if(action == 3 && RobotContainer.elevator.selectGamepiece == 1){
             //SmartDashboard.putString("Intake Status", scoring);
@@ -54,7 +55,7 @@ public class IntakeCommand extends CommandBase{
         }
         if(action == 2 && RobotContainer.elevator.selectGamepiece == 2){
             //SmartDashboard.putString("Intake Status", holding);
-
+            intake.hold();
         }
         if(action == 3 && RobotContainer.elevator.selectGamepiece == 2){
             //SmartDashboard.putString("Intake Status", scoring);

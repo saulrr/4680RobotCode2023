@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AutoSwerveJoystickCmd;
+import frc.robot.commands.AutonDriveForward;
 import frc.robot.subsystems.SwerveDrive;
 
 
@@ -32,19 +34,18 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    //m_robotContainer = new RobotContainer();
-
+    
     m_robotContainer = new RobotContainer();
     
-    //resetEncoderTimer.start();
+    chooser.setDefaultOption("Drive Forward", new AutonDriveForward(RobotContainer.swerveDrive, RobotContainer.elevator));
+    chooser.addOption("Drive Forward", new AutoSwerveJoystickCmd(RobotContainer.swerveDrive, 0.5, 0.0, 0.0, true).withTimeout(5));
+    chooser.addOption("Do Nothing", null);
     
-
-    //SwerveDrive.resetEncoders();
-    
-    SmartDashboard.putData("Auto mode", chooser);
+    // chooser.setDefaultOption("Do nothing", null);
+    // chooser.addOption("Drive", );
+    // SmartDashboard.putData("Auto mode", chooser);
 
     SmartDashboard.putData("CommandScheduler", CommandScheduler.getInstance());
-
 
     CameraServer.startAutomaticCapture(0);
   }

@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -31,8 +31,8 @@ public class ElevatorCommand extends CommandBase {
 
     @Override
     public void initialize(){
-        
-        // Cube Setpoints - ground intake, mid goal, high goal, shelf intake
+
+        // Cube Setpoints - ground intake, mid goal, high goal, shelf intake        
         if (position == 1 && elevator.selectGamepiece == 1) {
             setpoint = 0.7; // Should be about .7 for actual position
         }
@@ -42,36 +42,32 @@ public class ElevatorCommand extends CommandBase {
         if (position == 3 && elevator.selectGamepiece == 1) {
             setpoint = 22; // TODO
         }
-        if (position == 4 && gamepiece == 1) {
-            setpoint = 15; // TODO
-        }
+        // if (position == 4 && gamepiece == 1) { //Todo set shelf intake positions
+        //     setpoint = 15; // TODO
+        // }
         
-
         //Cone Setpoints - see above order
         if (position == 1 && elevator.selectGamepiece == 2) {
             setpoint = 1.73; // should be about 1.2 for actual position
         }
         if (position == 2 && elevator.selectGamepiece == 2) {
-            setpoint = 10; // TODO
+            setpoint = 12.5; // TODO
         }
-        if (position == 3 && gamepiece == 2) {
-            setpoint = 15; // TODO
+        if (position == 3 && elevator.selectGamepiece == 2) {
+            setpoint = 19.7; // TODO
         }
-        if (position == 4 && gamepiece == 2) {
-            setpoint = 15; // TODO
-        }
-        // if (position == 5 && gamepiece == 2) {
+        // if (position == 4 && elevator.selectGamepiece == 2) {
         //     setpoint = 15; // TODO
         // }
+
     }
 
     @Override
     public void execute() {
+
         double controlEffort = elevator.arbFF + m_elevatorPID.calculate(elevator.leftEncoder.getPosition(), setpoint); // adds FF input to fight gravity
 
         elevator.move(controlEffort); 
-        //elevator.move(elevator.arbFF);
-        //elevator.move(.8);
 
         SmartDashboard.putNumber("Target Position", position);
         SmartDashboard.putNumber("Target Setpoint", setpoint);

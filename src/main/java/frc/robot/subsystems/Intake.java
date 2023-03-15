@@ -13,16 +13,16 @@ public class Intake extends SubsystemBase {
 
     public double cubeIntakeSpeed = -0.2; //needs to negative with controls logic as is
     public int cubeIntakeLimit = 20; //current limit
-    public double cubeHoldSpeed;
-    public int cubeHoldLimit = 1; 
+    public double cubeHoldSpeed = 0;
+    public int cubeHoldLimit = 20; 
     public double cubeScoreSpeed = -0.2;
     public int cubeScoreLimit = 20;
 
     public double coneIntakeSpeed= 0.5; //Needs to be positive with controls logic as is
     public int coneIntakeLimit = 20;
-    public double coneHoldSpeed = 0;
+    public double coneHoldSpeed = .05;
     public int coneHoldLimit = 1;
-    public double coneScoreSpeed = 0.2;
+    public double coneScoreSpeed = 0.5;
     public int coneScoreLimit = 20;
 
     public Intake(){
